@@ -10,7 +10,7 @@ const path = require('path');
 
 // Initialize The ORM
 DB.getContext();
-Mongo.getContext();
+// Mongo.getContext();
 
 exports.registerMethod = function(app) {
     const methodName = [

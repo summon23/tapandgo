@@ -1,24 +1,18 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-    const User = sequelize.define('User', {
-        username: {
+    const User = sequelize.define('Feed', {
+        user_id: {
             type: DataTypes.STRING
         },
-        first_name: {
+        title: {
             type: DataTypes.STRING
         },
-        last_name: {
-            type: DataTypes.STRING
-        },
-        email: {
-            type: DataTypes.STRING
-        },
-        password: {
+        description: {
             type: DataTypes.STRING
         }
     }, {
-        tableName: 'users',
+        tableName: 'feed',
         freezeTableName: true,
         underscored: true
     });

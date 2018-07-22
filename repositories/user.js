@@ -23,4 +23,9 @@ exports.findOne = function (where){
     });
 };
 
+exports.createOne = function (data) {
+    const model = DB.getInstance();
+    return model.User.create(data);
+}
+
 module.exports = exports;

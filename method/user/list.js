@@ -7,7 +7,6 @@ const UserFeedRepo = require('../../repositories/userfeed');
 const Promise = require('bluebird');
 
 const MAINFUNCTION = Promise.coroutine(function* () {
-    // const feed = yield UserFeedRepo.findAll();
     const data = yield UserRepo.findAll();
     return data;
 });

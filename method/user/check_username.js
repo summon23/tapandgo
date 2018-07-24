@@ -9,7 +9,7 @@ const Joi = require('joi');
 const checkAvailableUsername = Promise.coroutine(function* (req, res, next) {
     const {
         username
-    } = req.body;
+    } = req.query;
 
     const schema = Joi.object().keys({
         username: Joi.string().required()

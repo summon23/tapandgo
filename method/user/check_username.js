@@ -6,27 +6,27 @@ const ENDPOINT = '/checkusername';
 const METHODTYPE = 'GET';
 const Joi = require('joi');
 
-const checkAvailableUsername = Promise.coroutine(function* (req, res, next) {
+const checkAvailableUsername = Promise.coroutine(function* (request, responseHandler, next) {
     const {
         username
-    } = req.query;
+    } = request.query;
 
     const schema = Joi.object().keys({
         username: Joi.string().required()
     });
 
     try {
-        yield Joi.validate(req.query, schema);
+        yield Joi.validate(request.query, schema);
     } catch (err) {
-        throw `Payload Not Valid ${err.message}`;
+        return responseHandler.BadRequest(`Payload Not Valid ${err.message}`);
     }
 
     const isUserWithUsernameExists = yield UserRepo.findOne({
         username
     });
 
-    const isUsernameAvailable = isUserWithUsernameExists ? true : false;
-    res.status(200).send({
+    const isUsernameAvailable = !isUserWithUsernameExists ? true : false;
+    return responseHandler.response({
         success: true,
         username_available: isUsernameAvailable
     });

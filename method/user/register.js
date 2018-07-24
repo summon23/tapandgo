@@ -6,7 +6,7 @@ const ENDPOINT = '/register';
 const METHODTYPE = 'POST';
 const Joi = require('joi');
 
-const registerNewUser = Promise.coroutine(function* (req, res, next) {
+const registerNewUser = Promise.coroutine(function* (request, responseHandler, next) {
     const { 
         username,
         email,
@@ -14,7 +14,7 @@ const registerNewUser = Promise.coroutine(function* (req, res, next) {
         confirm_password,
         first_name,
         last_name
-    } = req.body;
+    } = request.body;
 
     const schema = Joi.object().keys({
         username: Joi.string().required(),
@@ -26,9 +26,9 @@ const registerNewUser = Promise.coroutine(function* (req, res, next) {
     });
 
     try {
-        yield Joi.validate(req.body, schema);
+        yield Joi.validate(request.body, schema);
     } catch (err) {
-        throw `Payload Not Valid ${err.message}`;
+        return responseHandler.BadRequest(`Payload Not Valid ${err.message}`);
     }
 
     const isEmailExist = yield UserRepo.findOne({
@@ -36,17 +36,11 @@ const registerNewUser = Promise.coroutine(function* (req, res, next) {
     });
 
     if (isEmailExist) {
-        return {
-            data: false,
-            message: 'Email Already Registered'
-        }
+        return responseHandler.BadRequest('Email Already Registered');
     }
 
     if (String(password) !== String(confirm_password)) {
-        return {
-            data: false,
-            message: 'Password Not Match'
-        };
+        return responseHandler.BadRequest('Password Not Match');
     }
 
     try {
@@ -57,12 +51,12 @@ const registerNewUser = Promise.coroutine(function* (req, res, next) {
             password,
             email
         });
-        res.status(201).send({
+        return responseHandler.response({
             data: true,
             message: 'Register Complete'
-        });
+        })
     } catch (err) {
-        throw `Register failed ${err.message}`;
+        return responseHandler.BadRequest(`Register failed ${err.message}`);
     }
 });
 

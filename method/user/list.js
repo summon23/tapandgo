@@ -6,9 +6,11 @@ const UserRepo = require('../../repositories/user');
 const UserFeedRepo = require('../../repositories/userfeed');
 const Promise = require('bluebird');
 
-const MAINFUNCTION = Promise.coroutine(function* () {
+const MAINFUNCTION = Promise.coroutine(function* (request, responseHandler) {
     const data = yield UserRepo.findAll();
-    return data;
+    return responseHandler.response({
+        data
+    });
 });
 
 const { verifyJWTMiddleware } = require('../../middleware/auth');

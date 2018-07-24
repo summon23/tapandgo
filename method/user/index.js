@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const Promise = require('bluebird');
+const ResponseHandler = require('../../utils/response_handler');
 
 router.use(function (req, res, next) {
     console.log('Time:', Date.now());
@@ -22,27 +23,27 @@ for(let i=0; i < files.length; i++) {
 
     switch (method.METHODTYPE) {
         case 'GET':
-            router.get(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
-                const response = yield method.MAINFUNCTION(req, res);
-                res.status(200).send(response);
+            router.get(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
+                const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                response.status(result.status).json(result.data);
             }));
             break;
         case 'POST':
-            router.post(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
-                const response = yield method.MAINFUNCTION(req, res);
-                res.status(200).send(response);
+            router.post(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
+                const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                response.status(result.status).json(result.data);
             }));
             break;
         case 'PUT':
-            router.put(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
-                const response = yield method.MAINFUNCTION(req, res);
-                res.status(200).send(response);
+            router.put(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
+                const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                response.status(result.status).json(result.data);
             }));
             break;
         case 'DELETE':
-            router.delete(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
-                const response = yield method.MAINFUNCTION(req, res);
-                res.status(200).send(response);
+            router.delete(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
+                const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                response.status(result.status).json(result.data);
             }));
             break;
         default:

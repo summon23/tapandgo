@@ -16,7 +16,7 @@ const checkAvailableUsername = Promise.coroutine(function* (req, res, next) {
     });
 
     try {
-        yield Joi.validate(req.body, schema);
+        yield Joi.validate(req.query, schema);
     } catch (err) {
         throw `Payload Not Valid ${err.message}`;
     }

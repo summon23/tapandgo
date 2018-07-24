@@ -18,28 +18,29 @@ const files = fs.readdirSync(path.join(__dirname)).filter((file) => {
 
 for(let i=0; i < files.length; i++) {
     const method = require(path.join(__dirname, files[i]));
+    const MIDDLEWARE = method.MIDDLEWARE || function(req, res, next) { next(); };   
 
     switch (method.METHODTYPE) {
         case 'GET':
-            router.get(method.ENDPOINT, method.MIDDLEWARE, Promise.coroutine(function* (req, res) {
+            router.get(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
                 const response = yield method.MAINFUNCTION(req, res);
                 res.status(200).send(response);
             }));
             break;
         case 'POST':
-            router.post(method.ENDPOINT, method.MIDDLEWARE, Promise.coroutine(function* (req, res) {
+            router.post(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
                 const response = yield method.MAINFUNCTION(req, res);
                 res.status(200).send(response);
             }));
             break;
         case 'PUT':
-            router.put(method.ENDPOINT, method.MIDDLEWARE, Promise.coroutine(function* (req, res) {
+            router.put(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
                 const response = yield method.MAINFUNCTION(req, res);
                 res.status(200).send(response);
             }));
             break;
         case 'DELETE':
-            router.delete(method.ENDPOINT, method.MIDDLEWARE, Promise.coroutine(function* (req, res) {
+            router.delete(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (req, res) {
                 const response = yield method.MAINFUNCTION(req, res);
                 res.status(200).send(response);
             }));

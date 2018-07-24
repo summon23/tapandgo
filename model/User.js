@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     // force: true will drop the table if it already exists
-    User.sync({force: true}).then(() => {
+    User.sync({force: false}).then(() => {
         // Table created
         // return User.create({
         // first_name: 'John',

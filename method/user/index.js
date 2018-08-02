@@ -13,9 +13,11 @@ router.use(function (req, res, next) {
 });
 
 // Read Directory and Register the Method
-const files = fs.readdirSync(path.join(__dirname)).filter((file) => {
-    return (file.indexOf('.') !== 0) && (path.extname(file) === '.js') && (file !== 'index.js');
-});
+const files = fs.readdirSync(
+                path.join(__dirname))
+                    .filter((file) => {
+                        return (file.indexOf('.') !== 0) && (path.extname(file) === '.js') && (file !== 'index.js');
+                    });
 
 for(let i=0; i < files.length; i++) {
     const method = require(path.join(__dirname, files[i]));
@@ -23,28 +25,47 @@ for(let i=0; i < files.length; i++) {
 
     switch (method.METHODTYPE) {
         case 'GET':
-            router.get(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
-                const result = yield method.MAINFUNCTION(request, ResponseHandler);
-                response.status(result.status).json(result.data);
+            router.get(
+                method.ENDPOINT, 
+                MIDDLEWARE, 
+                Promise.coroutine(
+                    function* (request, response) {
+                        const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                        response.status(result.status).json(result.data);
             }));
             break;
         case 'POST':
-            router.post(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
-                const result = yield method.MAINFUNCTION(request, ResponseHandler);
-                response.status(result.status).json(result.data);
-            }));
+            router.post(
+                method.ENDPOINT, 
+                MIDDLEWARE, 
+                Promise.coroutine(
+                    function* (request, response) {
+                        const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                        response.status(result.status).json(result.data);
+                })
+            );
             break;
         case 'PUT':
-            router.put(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
-                const result = yield method.MAINFUNCTION(request, ResponseHandler);
-                response.status(result.status).json(result.data);
-            }));
+            router.put(
+                method.ENDPOINT, 
+                MIDDLEWARE, 
+                Promise.coroutine(
+                    function* (request, response) {
+                    const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                    response.status(result.status).json(result.data);
+                })
+            );
             break;
         case 'DELETE':
-            router.delete(method.ENDPOINT, MIDDLEWARE, Promise.coroutine(function* (request, response) {
-                const result = yield method.MAINFUNCTION(request, ResponseHandler);
-                response.status(result.status).json(result.data);
-            }));
+            router.delete(
+                method.ENDPOINT, 
+                MIDDLEWARE, 
+                Promise.coroutine(
+                    function* (request, response) {
+                    const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                    response.status(result.status).json(result.data);
+                })
+            );
             break;
         default:
             break;

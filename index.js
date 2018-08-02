@@ -3,9 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const PORT = 3001;
 const cors = require('cors');
 const core = require('./method');
+const config = require('./config');
+// Load Env File
+config.loadEnvironment();
+const PORT = process.env.PORT;
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies

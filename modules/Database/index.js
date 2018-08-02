@@ -1,6 +1,5 @@
 'use strict';
 
-const config = require('../../config');
 const fs = require('fs');
 const path = require('path');
 const Promise = require('bluebird');
@@ -8,7 +7,7 @@ const Sequelize = require('sequelize');
 const mongodb = require('mongodb');
 const modelPath = './model';
 const Helper = require('../../utils/helper');
-
+const config = require('../../config');
 // Load Env File
 config.loadEnvironment();
 
@@ -33,10 +32,12 @@ exports.getContext = Promise.coroutine(function* getContext() {
         operatorsAliases: false,
     });
 
+    //migrate Database
     const file = fs.readdirSync(path.join(__dirname, '../../', modelPath)).filter((file) => {
         return (file.indexOf('.') !== 0) && (path.extname(file) === '.js') && (file !== 'index.js');
     }).forEach((file) => {
         const model = DB.import(path.join(__dirname, '../../' ,modelPath, file));
+        //console.log(model);
         models[model.name] = model;
     });
 

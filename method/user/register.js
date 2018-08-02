@@ -5,9 +5,12 @@ const UserRepo = require('../../repositories/user');
 const ENDPOINT = '/register';
 const METHODTYPE = 'POST';
 const Joi = require('joi');
-
+const bcrypt = require('bcryptjs');
+const config = require('../../config');
+config.loadEnvironment();
+console.log('ini yaa'+bcrypt.genSaltSync(10));
 const registerNewUser = Promise.coroutine(function* (request, responseHandler, next) {
-    const { 
+    let { 
         username,
         email,
         password,
@@ -16,7 +19,7 @@ const registerNewUser = Promise.coroutine(function* (request, responseHandler, n
         last_name
     } = request.body;
 
-    const schema = Joi.object().keys({
+    let schema = Joi.object().keys({
         username: Joi.string().required(),
         password: Joi.string().required(),
         confirm_password: Joi.string().required(),
@@ -35,14 +38,35 @@ const registerNewUser = Promise.coroutine(function* (request, responseHandler, n
         email
     });
 
+    const isUsernamelExist = yield UserRepo.findOne({
+        username
+    });
+
+    let err = 0;
+    let field;
+
     if (isEmailExist) {
-        return responseHandler.BadRequest('Email Already Registered');
+        err++;
+        field = 'Email';
+    }
+
+    if (isUsernamelExist) {
+        err++;
+        field = 'Username';
+    }
+
+    if (err == 1) {
+        return responseHandler.BadRequest(field+' Already Registered');
+    }else if(err == 2){
+        return responseHandler.BadRequest('Email and Username Already Registered');
     }
 
     if (String(password) !== String(confirm_password)) {
         return responseHandler.BadRequest('Password Not Match');
     }
-
+    console.log(password);
+    password = bcrypt.hashSync(password, process.env.SALT);
+    console.log(password);
     try {
         yield UserRepo.createOne({
             first_name,

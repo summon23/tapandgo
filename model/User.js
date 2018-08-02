@@ -20,15 +20,28 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         tableName: 'users',
         freezeTableName: true,
-        underscored: true
+        underscored: true,
+        indexes:[
+            {
+                unique:true,
+                fields:['username']
+            },
+            {
+                unique:true,
+                fields:['email']
+            }
+        ]
     });
 
     // force: true will drop the table if it already exists
     User.sync({force: false}).then(() => {
         // Table created
         // return User.create({
-        // first_name: 'John',
-        // last_name: 'Hancock'
+        //     username: 'hilman',
+        //     first_name: 'Hilman',
+        //     last_name: 'Syafei',
+        //     email: 'syafeihilman@gmail.com',
+        //     'password': 'hilman1993'
         // });
     });
 

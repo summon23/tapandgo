@@ -3,6 +3,7 @@ const ENDPOINT = '/login';
 const METHODTYPE = 'POST';
 
 const UserRepo = require('../../repositories/user');
+const feedRepo = require('../../repositories/userfeed');
 const Promise = require('bluebird');
 const { createJWTToken }  = require('../../auth/index');
 const randtoken = require('rand-token');
@@ -16,6 +17,9 @@ const SUCCESS_CODE = process.env.SUCCESS_CODE;
 
 const MAINFUNCTION = Promise.coroutine(function* (req, res) {
     let statLogin = false;
+
+    const test = yield feedRepo.findAll();
+    console.log(test);
     const { username, 
             password } = req.body;
     const checkUsername = yield UserRepo.findOne({
@@ -25,8 +29,7 @@ const MAINFUNCTION = Promise.coroutine(function* (req, res) {
     if(bcrypt.compareSync(password, checkUsername.dataValues.password)){
         statLogin = true;
     }
-    //console.log(statusLogin);
-
+    
     if(statLogin) {
         const refreshToken = randtoken.uid(50);
         const token = createJWTToken({

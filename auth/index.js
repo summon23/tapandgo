@@ -54,10 +54,7 @@ exports.createJWTToken = function(details) {
         expiresIn: details.maxAge,
         algorithm: 'HS256'
     });
-
-
     const verify = verifyJWTToken(token);
-    console.log("verify", verify);
 
     return token
 };

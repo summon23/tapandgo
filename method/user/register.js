@@ -8,7 +8,7 @@ const Joi = require('joi');
 const bcrypt = require('bcryptjs');
 const config = require('../../config');
 config.loadEnvironment();
-console.log('ini yaa'+bcrypt.genSaltSync(10));
+
 const registerNewUser = Promise.coroutine(function* (request, responseHandler, next) {
     let { 
         username,
@@ -64,9 +64,9 @@ const registerNewUser = Promise.coroutine(function* (request, responseHandler, n
     if (String(password) !== String(confirm_password)) {
         return responseHandler.BadRequest('Password Not Match');
     }
-    console.log(password);
+    
     password = bcrypt.hashSync(password, process.env.SALT);
-    console.log(password);
+    
     try {
         yield UserRepo.createOne({
             first_name,

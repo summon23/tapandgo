@@ -17,9 +17,6 @@ const SUCCESS_CODE = process.env.SUCCESS_CODE;
 
 const MAINFUNCTION = Promise.coroutine(function* (req, res) {
     let statLogin = false;
-
-    const test = yield feedRepo.findAll();
-    console.log(test);
     const { username, 
             password } = req.body;
     const checkUsername = yield UserRepo.findOne({

@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const { createJWTToken }  = require('../../auth/index');
 const Auth = require('../../auth');
 
-const MAINFUNCTION = Promise.coroutine(function* (req, res) {
+const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
     const {
         refresh_token: refreshToken,
         token
@@ -20,17 +20,13 @@ const MAINFUNCTION = Promise.coroutine(function* (req, res) {
             maxAge: 3600
         });
         Auth.pushRefreshToken(token, refreshToken);
-        return {
-            status: true,
+        return responseHandler.response({
             token: token,
             refresh_token: refreshToken
-        };
+        });
     } else {
-        return {
-            message: 'Refresh Token Not Valid'
-        }
+        return responseHandler.BadRequest('Refresh Token Not Valid');
     }
-
 });
 
 const MIDDLEWARE = function(req, res, next) {

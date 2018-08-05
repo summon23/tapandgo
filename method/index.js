@@ -17,10 +17,6 @@ exports.registerMethod = function(app) {
         {
             uri: '/user',
             path: 'user'
-        },
-        {
-            uri: '/product',
-            path: 'product'
         }
     ];
 

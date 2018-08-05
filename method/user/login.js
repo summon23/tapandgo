@@ -15,7 +15,7 @@ config.loadEnvironment();
 const ERROR_CODE = process.env.ERROR_CODE;
 const SUCCESS_CODE = process.env.SUCCESS_CODE;
 
-const MAINFUNCTION = Promise.coroutine(function* (req, res) {
+const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
     let statLogin = false;
     const { username, 
             password } = req.body;
@@ -34,26 +34,15 @@ const MAINFUNCTION = Promise.coroutine(function* (req, res) {
             maxAge: 3600
         });
         Auth.pushRefreshToken(token, refreshToken);
-        return {
-            status: 200,
-            data:{
+        return responseHandler.response({
                 token: token,
                 refresh_token: refreshToken,
                 message: 'Load Success',
                 error_code: SUCCESS_CODE
             }
-            
-        };
+        );
     } else {
-        return {
-            status: 404,
-            data:{
-                token: null,
-                message: 'Invalid Username and Password',
-                error_code: ERROR_CODE
-            }
-            
-        };
+        return responseHandler.NotFound('Invalid Username and Password');
     }
 });
 

@@ -7,6 +7,7 @@
 const DB = require('../modules/Database');
 const Mongo = require('../modules/MongoContext');
 const path = require('path');
+const routes = require('../utils/routes');
 
 // Initialize The ORM
 DB.getContext();
@@ -29,9 +30,9 @@ exports.registerMethod = function(app) {
 
     for (let i=0; i < methodName.length;i++) {
         const method = methodName[i];
-        app.use(method.uri, require(path.join(__dirname, './',method.path)));
+        const allMethod = routes.genRoute(path.join(__dirname, './',method.path));
+        app.use(method.uri, allMethod);
     }
 };
-
 
 module.exports = exports;

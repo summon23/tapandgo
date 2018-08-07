@@ -46,7 +46,7 @@ const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
     }
 });
 
-const MIDDLEWARE = function(req, res, next) {
+const MIDDLEWARE = (req, res, next) => {
     next();
 };
 

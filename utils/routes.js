@@ -16,8 +16,7 @@ exports.genRoute = function (dirName){
                         });
     for(let i=0; i < files.length; i++) {
         const method = require(path.join(dirName, files[i]));
-        const MIDDLEWARE = method.MIDDLEWARE || function(req, res, next) { next(); };   
-
+        const MIDDLEWARE = method.MIDDLEWARE || function(req, res, next){ next(); };   
         const func = Promise.coroutine(
             function* (request, response) {
             const result = yield method.MAINFUNCTION(request, ResponseHandler);

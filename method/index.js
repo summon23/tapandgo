@@ -13,7 +13,7 @@ const routes = require('../utils/routes');
 DB.getContext();
 Mongo.getContext();
 
-exports.registerMethod = function(app) {
+exports.registerMethod = (app) => {
     const methodName = [
         {
             uri: '/user',

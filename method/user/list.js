@@ -15,7 +15,7 @@ const MAINFUNCTION = Promise.coroutine(function* (request, responseHandler) {
 
 const { verifyJWTMiddleware } = require('../../middleware/auth');
 
-const MIDDLEWARE = function(req, res, next) {
+const MIDDLEWARE = (req, res, next) => {
     next();
 };
 

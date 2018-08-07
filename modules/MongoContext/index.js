@@ -9,22 +9,6 @@ let mongoClient = null;
 
 exports.ObjectID = mongodb.ObjectID;
 
-// exports.configure = (config) => {
-//     const configurationSchema = Joi.object().keys({
-//         connection_string_key: Joi.string().required()
-//     });
-
-//     const validation = Joi.validate(config, configurationSchema);
-
-//     if (validation.error) {
-//         throw validation.error;
-//     } else {
-//         configuration = validation.value;
-//     }
-
-//     configuration = config;
-// };
-
 exports.getContext = Promise.coroutine(function* getContext() {
     if (mongoClient) {
         return mongoClient;

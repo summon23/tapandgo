@@ -5,7 +5,7 @@ const path = require('path');
 const Promise = require('bluebird');
 const DotEnv = require('dotenv');
 
-exports.loadEnvironment = function () {
+exports.loadEnvironment = () => {
     var env = process.env.NODE_ENV || 'local';    
     let inferredEnv = 'local';
 

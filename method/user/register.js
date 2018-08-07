@@ -84,7 +84,7 @@ const registerNewUser = Promise.coroutine(function* (request, responseHandler, n
     }
 });
 
-const MIDDLEWARE = function(req, res, next) {
+const MIDDLEWARE = (req, res, next) => {
     next();
 };
 

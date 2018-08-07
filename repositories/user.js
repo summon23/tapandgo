@@ -16,14 +16,14 @@ exports.findAll = function (){
     });
 };
 
-exports.findOne = function (where){
+exports.findOne = (where) => {
     const model = DB.getInstance();
     return model.User.findOne({
        where
     });
 };
 
-exports.createOne = function (data) {
+exports.createOne = (data) => {
     const model = DB.getInstance();
     return model.User.create(data);
 }

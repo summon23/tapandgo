@@ -19,19 +19,19 @@ const verifyJWTToken = function(token) {
     })
 }
 
-exports.pushRefreshToken = function(token, refreshToken) {
+exports.pushRefreshToken = (token, refreshToken) => {
     refreshTokenList[refreshToken] = token;
 };
 
-exports.verifyRefreshToken = function(refreshToken) {
+exports.verifyRefreshToken = (refreshToken) => {
     return refreshToken in refreshTokenList;
 };
 
-exports.updateRefreshToken = function (token, refreshToken) {
+exports.updateRefreshToken = (token, refreshToken) => {
     refreshTokenList[refreshToken] = token;
 };
 
-exports.createJWTToken = function(details) {
+exports.createJWTToken = (details) => {
     if (typeof details !== 'object') {
         details = {}
     }

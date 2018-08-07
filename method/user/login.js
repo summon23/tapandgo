@@ -19,6 +19,9 @@ const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
     let statLogin = false;
     const { username, 
             password } = req.body;
+    //yield feedRepo.createOne({'test':'data from local'});
+    const data =  yield feedRepo.findAll();
+    console.log(data);
     const checkUsername = yield UserRepo.findOne({
         username
     });

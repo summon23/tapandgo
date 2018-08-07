@@ -65,10 +65,11 @@ exports.createOne = function (obj) {
   	return new Promise((resolve, reject) => {
         try {
         	db.collection(COLLECTION).insertOne(obj,(err, result)=> {
-		    	if (err) throw reject(err);
+		    	if (err) throw reject(err)
 		    	resolve(result);
 		  	});
         } catch(err) {
+            console.log('data');
             reject(err);
         }
     });

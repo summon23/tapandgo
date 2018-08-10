@@ -1,7 +1,8 @@
 const { verifyJWTToken } = require ('../auth/helper');
+const ResponseHandler = require('../utils/response_handler');
 
 exports.verifyJWTMiddleware =  function verifyJWTMiddleware(req, res, next) {
-    let token = (req.method === 'POST') ? req.body.token : req.query.token;
+    let token = req.body.token || req.query.token || req.headers['x-access-token'];
     verifyJWTToken(token)
         .then((decodedToken) =>
         {
@@ -9,14 +10,9 @@ exports.verifyJWTMiddleware =  function verifyJWTMiddleware(req, res, next) {
             next();
         })
         .catch((err) =>
-        {
-            res.status(400)
-                .json(
-                    {
-                        message: "Invalid auth token provided.",
-                        err_message: err
-                    }
-                );
+        {   
+            const msg = err.message == 'invalid signature' ? 'JWT Invalid' : 'JWT Expired';
+            res.send(ResponseHandler.NotAuthorized(msg)); 
         })
 };
 

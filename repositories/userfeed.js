@@ -6,9 +6,11 @@ const COLLECTION = 'userfeed';
 
 exports.findAll = function (wheres) {
 	const db = MongoContext.getInstance();
+
 	return new Promise((resolve, reject) => {
         try {
-        	db.collection(COLLECTION).find({}).toArray((err,result) => {
+            let dbo = db.db("tapandgo");
+        	dbo.collection(COLLECTION).find({}).toArray((err,result) => {
 	    	if (err) throw err;
 		    	resolve(result);
 		  	});
@@ -22,6 +24,7 @@ exports.findOne = function (wheres) {
 	const db = MongoContext.getInstance();
 	return new Promise((resolve, reject) => {
         try {
+            let dbo = db.db("tapandgo");
         	db.collection(COLLECTION).findOne(wheres, (err, result) => {
 	    		if (err) throw err;
 		    	resolve(result);
@@ -36,7 +39,8 @@ exports.deleteOne = function (wheres) {
 	const db = MongoContext.getInstance();
 	return new Promise((resolve, reject) => {
         try {
-        	db.collection(COLLECTION).deleteOne(wheres, (err, result) => {
+            let dbo = db.db("tapandgo");
+        	dbo.collection(COLLECTION).deleteOne(wheres, (err, result) => {
 	    		if (err) throw err;
 		    	resolve(result);
 		  	});
@@ -50,7 +54,8 @@ exports.updateOne = function (wheres, newVals) {
 	const db = MongoContext.getInstance();
 	return new Promise((resolve, reject) => {
         try {
-        	db.collection(COLLECTION).updateOne(wheres, newVals,(err, result) => {
+            let dbo = db.db("tapandgo");
+        	dbo.collection(COLLECTION).updateOne(wheres, newVals,(err, result) => {
 	    		if (err) throw err;
 		    	resolve(result);
 		  	});
@@ -64,7 +69,8 @@ exports.createOne = function (obj) {
   	const db = MongoContext.getInstance();
   	return new Promise((resolve, reject) => {
         try {
-        	db.collection(COLLECTION).insertOne(obj,(err, result)=> {
+            let dbo = db.db("tapandgo");
+        	dbo.collection(COLLECTION).insertOne(obj,(err, result)=> {
 		    	if (err) throw reject(err)
 		    	resolve(result);
 		  	});

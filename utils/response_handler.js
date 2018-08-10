@@ -8,7 +8,8 @@ const errors = [
     { name: 'UnprocessableEntity', statusCode: 422, message: 'Unprocessable Entity' },
     { name: 'InternalServerError', statusCode: 500, message: 'Internal Server Error' },
     { name: 'NotImplemented', statusCode: 501, message: 'Not Implemented' },
-    { name: 'ServiceUnavailable', statusCode: 503, message: 'Service Unavailable' }
+    { name: 'ServiceUnavailable', statusCode: 503, message: 'Service Unavailable' },
+    { name: 'TokenExpiredError', statusCode: 401, message: 'Token Expired' }
 ];
 
 const errorProcessor = function (error) {

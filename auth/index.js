@@ -11,7 +11,7 @@ const verifyJWTToken = function(token) {
         {
             if (err || !decodedToken)
             {
-                return reject(false)
+                return reject(err)
             }
 
             resolve(true)

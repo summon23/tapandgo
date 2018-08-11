@@ -4,13 +4,13 @@ const MongoContext = require('../modules/MongoContext');
 const COLLECTION = 'userfeed';
 
 
-exports.findAll = function (wheres) {
+exports.findAll = function (wheres = {}) {
 	const db = MongoContext.getInstance();
 
 	return new Promise((resolve, reject) => {
         try {
             let dbo = db.db("tapandgo");
-        	dbo.collection(COLLECTION).find({}).toArray((err,result) => {
+        	dbo.collection(COLLECTION).find(wheres).toArray((err,result) => {
 	    	if (err) throw err;
 		    	resolve(result);
 		  	});

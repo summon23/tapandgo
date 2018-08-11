@@ -19,9 +19,10 @@ exports.genRoute = function (dirName){
         const MIDDLEWARE = method.MIDDLEWARE || function(req, res, next){ next(); };   
         const func = Promise.coroutine(
             function* (request, response) {
-            const result = yield method.MAINFUNCTION(request, ResponseHandler);
-            response.status(result.status).json(result.data);
-        });
+                const result = yield method.MAINFUNCTION(request, ResponseHandler);
+                response.status(result.status).json(result.data);
+            }
+        );
 
         switch (method.METHODTYPE) {
             case 'GET':

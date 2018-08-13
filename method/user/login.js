@@ -34,7 +34,7 @@ const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
         const refreshToken = randtoken.uid(50);
         const token = createJWTToken({
             sessionData: checkUsername.dataValues,
-            maxAge: 3600
+            maxAge: 7200
         });
         Auth.pushRefreshToken(token, refreshToken);
         return responseHandler.response({

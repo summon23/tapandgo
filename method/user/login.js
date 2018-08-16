@@ -26,7 +26,8 @@ const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
         username
     });
 
-    if(bcrypt.compareSync(password, checkUsername.dataValues.password)){
+    if (!checkUsername) return responseHandler.NotFound('Username Not Found');
+    if (bcrypt.compareSync(password, checkUsername.dataValues.password)){
         statLogin = true;
     }
     

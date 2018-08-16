@@ -2,21 +2,14 @@
 
 module.exports = function(sequelize, DataTypes) {
     const User = sequelize.define('User', {
-        username: {
-            type: DataTypes.STRING
-        },
-        first_name: {
-            type: DataTypes.STRING
-        },
-        last_name: {
-            type: DataTypes.STRING
-        },
-        email: {
-            type: DataTypes.STRING
-        },
-        password: {
-            type: DataTypes.STRING
-        }
+        username: { type: DataTypes.STRING },
+        first_name: { type: DataTypes.STRING },
+        last_name: { type: DataTypes.STRING },
+        email: { type: DataTypes.STRING },
+        password: { type: DataTypes.STRING },
+        profile_picture: { type: DataTypes.STRING },
+        bio: { type: DataTypes.STRING },
+        point: { type: DataTypes.STRING }        
     }, {
         tableName: 'users',
         freezeTableName: true,

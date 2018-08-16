@@ -18,6 +18,10 @@ exports.registerMethod = (app) => {
         {
             uri: '/user',
             path: 'user'
+        },
+        {
+            uri: '/feed',
+            path: 'feed'
         }
     ];
 

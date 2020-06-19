@@ -1,15 +1,16 @@
 'use strict';
 
-const Promise = require('bluebird');
+
 const UserRepo = require('../../repositories/user');
 const ENDPOINT = '/register';
 const METHODTYPE = 'POST';
 const Joi = require('joi');
 const bcrypt = require('bcryptjs');
 const config = require('../../config');
+const { async } = require('q');
 config.loadEnvironment();
 
-const registerNewUser = Promise.coroutine(function* (request, responseHandler, next) {
+const registerNewUser = async (request, responseHandler, next) => {
     let { 
         username,
         email,
@@ -29,16 +30,16 @@ const registerNewUser = Promise.coroutine(function* (request, responseHandler, n
     });
 
     try {
-        yield Joi.validate(request.body, schema);
+        await Joi.validate(request.body, schema);
     } catch (err) {
         return responseHandler.BadRequest(`Payload Not Valid ${err.message}`);
     }
 
-    const isEmailExist = yield UserRepo.findOne({
+    const isEmailExist = await UserRepo.findOne({
         email
     });
 
-    const isUsernamelExist = yield UserRepo.findOne({
+    const isUsernamelExist = await UserRepo.findOne({
         username
     });
 
@@ -68,7 +69,7 @@ const registerNewUser = Promise.coroutine(function* (request, responseHandler, n
     password = bcrypt.hashSync(password, process.env.SALT);
     
     try {
-        yield UserRepo.createOne({
+        await UserRepo.createOne({
             first_name,
             last_name,
             username,
@@ -82,7 +83,7 @@ const registerNewUser = Promise.coroutine(function* (request, responseHandler, n
     } catch (err) {
         return responseHandler.BadRequest(`Register failed ${err.message}`);
     }
-});
+};
 
 const MIDDLEWARE = (req, res, next) => {
     next();

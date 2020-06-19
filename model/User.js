@@ -6,10 +6,7 @@ module.exports = function(sequelize, DataTypes) {
         first_name: { type: DataTypes.STRING },
         last_name: { type: DataTypes.STRING },
         email: { type: DataTypes.STRING },
-        password: { type: DataTypes.STRING },
-        profile_picture: { type: DataTypes.STRING },
-        bio: { type: DataTypes.STRING },
-        point: { type: DataTypes.STRING }        
+        password: { type: DataTypes.STRING }
     }, {
         tableName: 'users',
         freezeTableName: true,
@@ -27,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     // force: true will drop the table if it already exists
-    User.sync({force: false}).then(() => {
+    // User.sync({force: false}).then(() => {
         // Table created
         // return User.create({
         //     username: 'hilman',
@@ -36,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
         //     email: 'syafeihilman@gmail.com',
         //     'password': 'hilman1993'
         // });
-    });
+    // });
 
     return User;
 }

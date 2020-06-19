@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const Promise = require('bluebird');
+
 const DotEnv = require('dotenv');
 
 exports.loadEnvironment = () => {

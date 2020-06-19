@@ -1,7 +1,7 @@
 'use strict';
 
 const DB = require('../modules/Database');
-const Promise = require('bluebird');
+
 
 exports.findAll = function (){
     const model = DB.getInstance();

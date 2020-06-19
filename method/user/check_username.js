@@ -1,12 +1,12 @@
 'use strict';
 
-const Promise = require('bluebird');
+
 const UserRepo = require('../../repositories/user');
 const ENDPOINT = '/checkusername';
 const METHODTYPE = 'GET';
 const Joi = require('joi');
 
-const checkAvailableUsername = Promise.coroutine(function* (request, responseHandler, next) {
+const checkAvailableUsername = async (request, responseHandler, next) => {
     const {
         username
     } = request.query;
@@ -16,12 +16,12 @@ const checkAvailableUsername = Promise.coroutine(function* (request, responseHan
     });
 
     try {
-        yield Joi.validate(request.query, schema);
+        await Joi.validate(request.query, schema);
     } catch (err) {
         return responseHandler.BadRequest(`Payload Not Valid ${err.message}`);
     }
 
-    const isUserWithUsernameExists = yield UserRepo.findOne({
+    const isUserWithUsernameExists = await UserRepo.findOne({
         username
     });
 
@@ -30,7 +30,7 @@ const checkAvailableUsername = Promise.coroutine(function* (request, responseHan
         success: true,
         username_available: isUsernameAvailable
     });
-});
+};
 
 module.exports = {
     ENDPOINT,

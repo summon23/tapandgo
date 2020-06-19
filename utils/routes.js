@@ -4,8 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const Promise = require('bluebird');
+
 const ResponseHandler = require('./response_handler');
+const { async } = require('q');
 
 // Read Directory and Register the Method
 exports.genRoute = function (dirName){
@@ -17,12 +18,17 @@ exports.genRoute = function (dirName){
     for(let i=0; i < files.length; i++) {
         const method = require(path.join(dirName, files[i]));
         const MIDDLEWARE = method.MIDDLEWARE || function(req, res, next){ next(); };   
-        const func = Promise.coroutine(
-            function* (request, response) {
-                const result = yield method.MAINFUNCTION(request, ResponseHandler);
-                response.status(result.status).json(result.data);
-            }
-        );
+        // const func = Promise.coroutine(
+        //     function* (request, response) {
+        //         const result = yield method.MAINFUNCTION(request, ResponseHandler);
+        //         response.status(result.status).json(result.data);
+        //     }
+        // );
+
+        const func = async (request, response) => {
+            const result = await method.MAINFUNCTION(request, ResponseHandler);
+            response.status(result.status).json(result.data);
+        };
 
         switch (method.METHODTYPE) {
             case 'GET':

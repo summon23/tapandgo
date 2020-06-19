@@ -2,12 +2,12 @@
 const ENDPOINT = '/token';
 const METHODTYPE = 'POST';
 
-const Promise = require('bluebird');
+
 const jwt = require('jsonwebtoken');
 const { createJWTToken }  = require('../../auth/index');
 const Auth = require('../../auth');
 
-const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
+const MAINFUNCTION = async (req, responseHandler) => {
     const {
         refresh_token: refreshToken,
         token
@@ -27,7 +27,7 @@ const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
     } else {
         return responseHandler.BadRequest('Refresh Token Not Valid');
     }
-});
+};
 
 const MIDDLEWARE = (req, res, next) => {
     next();

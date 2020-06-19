@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const Promise = require('bluebird');
+
 const Sequelize = require('sequelize');
 const mongodb = require('mongodb');
 const modelPath = './model';
@@ -14,7 +14,7 @@ config.loadEnvironment();
 const models = {};
 let modelsInitialized = false;
 
-exports.getContext = Promise.coroutine(function* getContext() {
+exports.getContext = async() => {
     if (modelsInitialized === true) {
         return models;
     }
@@ -42,33 +42,33 @@ exports.getContext = Promise.coroutine(function* getContext() {
     });
 
     return models;
-});
+};
 
 exports.getInstance = () => models;
 
-exports.startTransaction = Promise.coroutine(function* startTransaction() {
-    models.db_transaction = yield models.context.transaction({
+exports.startTransaction = async () => {
+    models.db_transaction = await models.context.transaction({
         isolationLevel: models.context.Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED
     });
-});
+};
 
-exports.commit = Promise.coroutine(function* commit() {
+exports.commit = async () => {
     if (models.db_transaction) {
-        yield models.db_transaction.commit();
+        await models.db_transaction.commit();
         models.db_transaction = null;
     }
-});
+};
 
-exports.rollback = Promise.coroutine(function* rollback() {
+exports.rollback = async () => {
     if (models.db_transaction) {
-        yield models.db_transaction.rollback();
+        await models.db_transaction.rollback();
         models.db_transaction = null;
     }
-});
+};
 
-exports.closeContext = Promise.coroutine(function* closeContext() {
+exports.closeContext = async () =>{
     if (models && models.context) {
-        const result = yield models.context.close();
+        const result = await models.context.close();
         models = {
             ORMProvider: Sequelize
         };
@@ -77,6 +77,6 @@ exports.closeContext = Promise.coroutine(function* closeContext() {
     }
 
     return null;
-});
+};
 
 module.exports = exports;

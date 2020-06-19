@@ -8,7 +8,7 @@ const core = require('./method');
 const config = require('./config');
 // Load Env File
 config.loadEnvironment();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8888;
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies

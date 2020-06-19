@@ -4,12 +4,12 @@ const METHODTYPE = 'GET';
 
 const UserRepo = require('../../repositories/user');
 const UserFeedRepo = require('../../repositories/userfeed');
-const Promise = require('bluebird');
+
 const datetime = require('node-datetime');
 
-const MAINFUNCTION = Promise.coroutine(function* (request, responseHandler) {
+const MAINFUNCTION = async (request, responseHandler) => {
     const { user_id } = request.params;
-    const checkDouble  = yield UserFeedRepo.findAll({'user_id':user_id});
+    const checkDouble  = await UserFeedRepo.findAll({'user_id':user_id});
     if (checkDouble.length > 0) {
         return responseHandler.response(
             {
@@ -22,7 +22,7 @@ const MAINFUNCTION = Promise.coroutine(function* (request, responseHandler) {
     }
 
     
-});
+};
 
 const { verifyJWTMiddleware } = require('../../middleware/auth');
 

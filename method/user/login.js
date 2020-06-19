@@ -4,7 +4,7 @@ const METHODTYPE = 'POST';
 
 const UserRepo = require('../../repositories/user');
 const feedRepo = require('../../repositories/userfeed');
-const Promise = require('bluebird');
+
 const { createJWTToken }  = require('../../auth/index');
 const randtoken = require('rand-token');
 const Auth = require('../../auth');
@@ -15,14 +15,12 @@ config.loadEnvironment();
 const ERROR_CODE = process.env.ERROR_CODE;
 const SUCCESS_CODE = process.env.SUCCESS_CODE;
 
-const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
+const MAINFUNCTION = async (req, responseHandler) => {
     let statLogin = false;
     const { username, 
             password } = req.body;
-    //yield feedRepo.createOne({'test':'data from local'});
-    //const data =  yield feedRepo.findAll();
-    //console.log(data);
-    const checkUsername = yield UserRepo.findOne({
+
+    const checkUsername = await UserRepo.findOne({
         username
     });
 
@@ -48,7 +46,7 @@ const MAINFUNCTION = Promise.coroutine(function* (req, responseHandler) {
     } else {
         return responseHandler.NotFound('Invalid Username and Password');
     }
-});
+};
 
 const MIDDLEWARE = (req, res, next) => {
     next();

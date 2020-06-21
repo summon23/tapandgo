@@ -5,14 +5,14 @@ const DB = require('../modules/Database');
 
 exports.findAll = function (){
     const model = DB.getInstance();
-    return model.User.findAll();
+    return model.Tournament.findAll();
 };
 
 exports.findAndCountAll = function (limit, page) {
     const model = DB.getInstance();
     const offset = page == 1 ? 0 : (limit * (page -1)); 
     console.log("OFFSET:" + offset)
-    return model.User.findAndCountAll({
+    return model.Tournament.findAndCountAll({
         limit: parseInt(limit),
         offset: parseInt(offset)
     })
@@ -20,19 +20,19 @@ exports.findAndCountAll = function (limit, page) {
 
 exports.findOne = (where) => {
     const model = DB.getInstance();
-    return model.User.findOne({
+    return model.Tournament.findOne({
        where
     });
 };
 
 exports.createOne = (data) => {
     const model = DB.getInstance();
-    return model.User.create(data);
+    return model.Tournament.create(data);
 }
 
 exports.update = (data, where) => {
     const model = DB.getInstance();
-    return model.User.update( data, { where })
+    return model.Tournament.update( data, { where })
 }
 
 module.exports = exports;

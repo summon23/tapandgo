@@ -3,13 +3,13 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const router = express.Router();
+
 
 const ResponseHandler = require('./response_handler');
-const { async } = require('q');
 
 // Read Directory and Register the Method
 exports.genRoute = function (dirName){
+    const router = express.Router();
     const files = fs.readdirSync(
                     path.join(dirName))
                         .filter((file) => {
@@ -26,8 +26,15 @@ exports.genRoute = function (dirName){
         // );
 
         const func = async (request, response) => {
-            const result = await method.MAINFUNCTION(request, ResponseHandler);
-            response.status(result.status).json(result.data);
+            try {
+                const result = await method.MAINFUNCTION(request, ResponseHandler);
+                response.status(result.status).json(result.data);
+            } catch (error) {
+                console.log(error);
+                response.status(400).json({
+                    message: 'Something Wrong, Please Contact Administrator'
+                });
+            }
         };
 
         switch (method.METHODTYPE) {
@@ -47,7 +54,7 @@ exports.genRoute = function (dirName){
                 break;
         }
     }   
-
+    
     return router;
 }
 

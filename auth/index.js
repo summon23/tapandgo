@@ -51,7 +51,8 @@ exports.createJWTToken = (details) => {
     let token = jwt.sign({
         data: details.sessionData
     }, process.env.JWT_SECRET, {
-        expiresIn: details.maxAge,
+        expiresIn: details.maxAge, 
+        // 1m
         algorithm: 'HS256'
     });
     const verify = verifyJWTToken(token);

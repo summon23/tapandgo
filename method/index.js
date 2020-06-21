@@ -22,6 +22,10 @@ exports.registerMethod = (app) => {
         {
             uri: '/feed',
             path: 'feed'
+        },
+        {
+            uri: '/tournament',
+            path: 'tournament'
         }
     ];
 
@@ -34,8 +38,12 @@ exports.registerMethod = (app) => {
 
     for (let i=0; i < methodName.length;i++) {
         const method = methodName[i];
+        const dirname = path.join(__dirname, './',method.path);
         const allMethod = routes.genRoute(path.join(__dirname, './',method.path));
-        app.use(method.uri, allMethod);
+        app.use(method.uri, (req, res, next) => {
+            console.log("REQUEST FROM:" + req);
+            next();
+        }, allMethod);
     }
 };
 

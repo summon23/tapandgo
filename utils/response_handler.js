@@ -24,6 +24,19 @@ const errorProcessor = function (error) {
     };
 };
 
+const success = [
+    { name: 'SuccessCreate', statusCode: 201 },
+    { name: 'SuccessDelete', statusCode: 204 }
+]
+
+const successProcessor = (s) => {
+    return (m) => {
+        return {
+            status: s.statusCode
+        }
+    }
+}
+
 exports.response = function (data) {
     return {
         status: 200,
@@ -34,6 +47,10 @@ exports.response = function (data) {
 errors.forEach((e) => {
     exports[e.name] = errorProcessor(e);
 });
+
+success.forEach((e) => {
+    exports[e.name] = successProcessor(e);
+})
 
 
 module.exports = exports;

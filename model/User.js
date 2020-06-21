@@ -6,7 +6,11 @@ module.exports = function(sequelize, DataTypes) {
         first_name: { type: DataTypes.STRING },
         last_name: { type: DataTypes.STRING },
         email: { type: DataTypes.STRING },
-        password: { type: DataTypes.STRING }
+        password: { type: DataTypes.STRING },
+        status: { 
+            type: DataTypes.INTEGER,
+            lenght: 1
+        }
     }, {
         tableName: 'users',
         freezeTableName: true,
